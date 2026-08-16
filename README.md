@@ -80,6 +80,25 @@ cd .. && ./seed.sh          # rebuilds every course variant and relinks
    `ERROR: Unable to read the extension 'clean'`. Symlinking the whole
    `_extensions/` directory works. `seed.sh` does the latter.
 
+
+## More than one `_seed` on a machine
+
+`hci/lecture/_seed` is a **submodule** of the `hci-lecture` repo, so that a clone
+of that repo is self-contained for a collaborator. `~/courses/_seed` is the
+shared checkout used by the courses that aren't shared.
+
+Each checkout owns the decks *nearest* to it, walking up the tree, so the two
+never fight over the same deck:
+
+| checkout | owns |
+|---|---|
+| `hci/lecture/_seed` (submodule) | the 17 hci decks |
+| `~/courses/_seed` | infointeractdsgn (17) + appProtoStudio (1) |
+
+Run `seed.sh` from whichever checkout owns the decks you changed; `--list` shows
+what each one claims. They are the same repo, so a change made in one must be
+pushed and pulled into the other.
+
 ## Superseded
 
 - `ssBoilerplate/` — its role is now `_seed/common` + `_seed/courses/*`.
