@@ -134,6 +134,9 @@ while IFS= read -r d; do
   [ -d "$d" ] || continue
   b="$(basename "$d")"
   [ "$b" = "_seed" ] && continue
+  # never treat the seed's own course-config dirs as decks: they contain a
+  # _metadata.yaml declaring clean-revealjs and would otherwise self-match
+  case "$d/" in "$SEED_DIR"/*) continue;; esac
   is_excluded "$b" && continue
   files=()
   [ -f "$d/index.qmd" ]      && files+=("$d/index.qmd")
