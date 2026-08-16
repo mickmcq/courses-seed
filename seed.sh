@@ -99,6 +99,18 @@ link() {
   esac
 }
 
+# A single-course repo (e.g. hci-lecture) can be cloned under any directory
+# name, so the course can't be inferred from the path there. The outer repo
+# declares it in .seedcourse, which travels with the clone.
+FIXED_COURSE=""
+if [ -f "$ROOT/.seedcourse" ]; then
+  FIXED_COURSE="$(tr -d '[:space:]' < "$ROOT/.seedcourse")"
+  [ -d "$SEED_DIR/courses/$FIXED_COURSE" ] || {
+    echo "!! .seedcourse names '$FIXED_COURSE' but _seed/courses/$FIXED_COURSE does not exist" >&2
+    exit 1
+  }
+fi
+
 # ---- ownership: each _seed checkout owns the decks nearest to it -----------
 # There can be more than one _seed on a machine: the shared ~/courses/_seed and
 # a submodule copy inside a course repo (e.g. hci/lecture/_seed) so that a clone
@@ -128,9 +140,16 @@ while IFS= read -r d; do
   [ -f "$d/_metadata.yaml" ] && files+=("$d/_metadata.yaml")
   [ ${#files[@]} -gt 0 ] || continue
   grep -q "clean-revealjs" "${files[@]}" 2>/dev/null || continue
-  # only courses we have a seed config for, and that are opted in via COURSES
-  course="$(basename "$(dirname "$(dirname "$d")")")"
-  case " $COURSES " in *" $course "*) ;; *) continue;; esac
+  # Which course does this deck belong to? Normally derived from the path
+  # (<course>/lecture/<deck>), but a collaborator's clone of a single course
+  # repo can be checked out under any directory name, so an explicit binding
+  # in <repo-root>/.seedcourse wins when present.
+  if [ -n "$FIXED_COURSE" ]; then
+    course="$FIXED_COURSE"
+  else
+    course="$(basename "$(dirname "$(dirname "$d")")")"
+    case " $COURSES " in *" $course "*) ;; *) continue;; esac
+  fi
   owner="$(nearest_seed "$d" || true)"
   if [ "$owner" != "$SEED_DIR" ]; then skipped=$((skipped+1)); continue; fi
   decks+=("$d")
