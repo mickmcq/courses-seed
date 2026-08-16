@@ -208,7 +208,11 @@ done
 
 # ---- seed each deck -------------------------------------------------------
 for d in "${decks[@]}"; do
-  course="$(basename "$(dirname "$(dirname "$d")")")"
+  if [ -n "$FIXED_COURSE" ]; then
+    course="$FIXED_COURSE"
+  else
+    course="$(basename "$(dirname "$(dirname "$d")")")"
+  fi
   conf="$SEED_DIR/courses/$course/course.conf"
   [ -f "$conf" ] || { say "!! no course.conf for $course, skipping $d"; continue; }
   SANS_FONT=""; SANS_WEIGHTS=""; EXTENSIONS=""; FILES=""

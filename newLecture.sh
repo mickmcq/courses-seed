@@ -21,7 +21,13 @@ if [ $# -lt 3 ]; then
 fi
 
 course="$1"; name="$2"; title="$3"
-dest="$ROOT/$course/lecture/$name"
+# In a single-course repo (declared by .seedcourse) decks sit directly beside
+# _seed; in the shared tree they sit at <course>/lecture/<deck>.
+if [ -f "$ROOT/.seedcourse" ]; then
+  dest="$ROOT/$name"
+else
+  dest="$ROOT/$course/lecture/$name"
+fi
 
 [ -d "$SEED_DIR/courses/$course" ] || { echo "no seed config for course '$course'" >&2; exit 1; }
 [ -e "$dest" ] && { echo "already exists: $dest" >&2; exit 1; }
