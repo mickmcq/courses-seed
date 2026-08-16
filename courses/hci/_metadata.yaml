@@ -1,0 +1,41 @@
+title: ""
+subtitle: "Human Computer Interaction"
+author:
+  - name: Valle Hansen
+    email: valle.hansen@ischool.utexas.edu
+    affiliations: University of Texas at Austin
+  - name: Mick McQuaid
+    email: mcq@utexas.edu
+    affiliations: University of Texas at Austin
+date: last-modified
+date-format: "DD MMM YYYY"
+execute:
+  echo: true
+format: 
+  clean-revealjs:
+    transition: fade
+    slide-number: false
+    logo: quarto.png
+    footer-logo-link: "https://quarto.org"
+    sc-sb-title: false
+    header-logo: iSchoolLogoLight.png
+    header-logo-link: "https://ischool.utexas.edu"
+    subtitle-as-header: false
+    controls: true
+    controls-layout: edges
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"
+filters:
+  - reveal-header
+  - autofade.lua
+slide-level: 2
+number-sections: false
+engine: knitr
+embed-resources: true
+bibliography: master.bib
+monofont: VictorMono Nerd Font
+mathfont: Fira Math
+menu:
+  side: 'right'
+css: "style.css"
