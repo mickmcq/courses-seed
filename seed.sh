@@ -126,9 +126,13 @@ nearest_seed() {
 }
 
 # ---- discover decks -------------------------------------------------------
-# Search both layouts and let the ownership check sort them out:
-#   <seed>/../*/            e.g. hci/lecture/_seed  -> sibling deck dirs
-#   <seed>/../*/lecture/*/  e.g. courses/_seed      -> <course>/lecture/<deck>
+# A _seed can sit at any distance above its decks, depending on where the
+# sharing boundary (the repo root) happens to be:
+#   hci/lecture/_seed       -> decks are siblings          (depth 1)
+#   infointeractdsgn/_seed  -> decks at lecture/<deck>     (depth 2)
+#   courses/_seed           -> decks at <course>/lecture/  (depth 3)
+# So search depths 1-3 and let the filters below (clean-revealjs, not inside
+# the seed, course opt-in, nearest-seed ownership) decide what is really a deck.
 decks=(); skipped=0
 while IFS= read -r d; do
   [ -d "$d" ] || continue
@@ -156,8 +160,7 @@ while IFS= read -r d; do
   owner="$(nearest_seed "$d" || true)"
   if [ "$owner" != "$SEED_DIR" ]; then skipped=$((skipped+1)); continue; fi
   decks+=("$d")
-done < <({ find "$ROOT" -mindepth 1 -maxdepth 1 -type d
-           find "$ROOT" -mindepth 3 -maxdepth 3 -type d -path "*/lecture/*"; } 2>/dev/null | sort -u)
+done < <(find "$ROOT" -mindepth 1 -maxdepth 3 -type d 2>/dev/null | sort -u)
 
 if [ "$MODE" = list ]; then
   [ ${#decks[@]} -gt 0 ] && printf '%s\n' "${decks[@]#$ROOT/}"
