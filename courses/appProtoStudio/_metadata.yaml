@@ -29,6 +29,7 @@ number-sections: false
 engine: knitr
 embed-resources: true
 bibliography: master.bib
+mainfont: Fira Sans
 monofont: VictorMono Nerd Font
 mathfont: Fira Math
 menu:
