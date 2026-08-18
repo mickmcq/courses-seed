@@ -24,10 +24,10 @@ Note: This theme uses the Roboto font family, which it imports from Google
   preserving consistent font weights, you may also wish to remove "Roboto"
   from the choice set if the family is installed locally.
 */
-@import url('https://fonts.googleapis.com/css?family=Roboto:200,200i,300,300i,350,350i,400,400i&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:200,200i,300,300i,400,400i&display=swap');
 
-$font-family-sans-serif: "Roboto", sans-serif !default;
-$presentation-heading-font: "Roboto", sans-serif !default;
+$font-family-sans-serif: "Fira Sans", sans-serif !default;
+$presentation-heading-font: "Fira Sans", sans-serif !default;
 
 $presentation-heading-color: $jet !default;
 $presentation-heading-font-weight: lighter;
