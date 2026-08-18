@@ -30,7 +30,7 @@ engine: knitr
 embed-resources: true
 bibliography: master.bib
 monofont: VictorMono Nerd Font
-mathfont: TeX Gyre Math
+mathfont: Fira Math
 menu:
   side: 'right'
 css: "style.css"
