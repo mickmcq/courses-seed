@@ -45,10 +45,24 @@ Also excluded automatically, because they are not clean-revealjs decks:
 |---|---|
 | `hci/lecture/14Conclusion` | plain `revealjs`, `theme: simple` |
 | `hci/lecture/hciExperiments` | an HTML document, not a slideshow |
-| `infointeractdsgn/lecture/14visTheory` | plain `revealjs`, `theme: moon`, still points at the *old* `iSchoolLogo.png` |
 
-If you want any of these on the house format, convert its header to
-`format: clean-revealjs:` and it will be seeded on the next run.
+To bring one of these onto the house format there is a bootstrap step, because
+discovery keys on `clean-revealjs` and a converted deck's `index.qmd` keeps only
+its `title:` — the format lives in the shared `_metadata.yaml`. So symlink that
+file in by hand first, then seed:
+
+```sh
+cd <course>/lecture/<deck>
+ln -s ../../_seed/courses/<course>/_metadata.yaml _metadata.yaml
+cd - && ./_seed/seed.sh          # picks the deck up and writes the rest
+```
+
+Cut the deck's own YAML header down to `title:`, replace its hand-written
+References/END/Colophon slides with `{{< include endMatter.md >}}`, and copy in
+`mathjax-config.js` from any seeded deck (the clean extension loads it via
+`format-resources`; `seed.sh` does not manage it). `seed.sh` overwrites a local
+`style.css` or `master.bib` with the shared symlink, so check first that the
+deck's bibliography is a subset of `common/master.bib`.
 
 ## Per-course fonts without forking the extension
 
