@@ -20,4 +20,12 @@ while IFS= read -r rel; do
 done < <("$SEED_DIR/seed.sh" --list | grep -v '^--')
 echo
 echo "rendered OK: $ok   failed: $fail"
-for f in "${failed[@]:-}"; do [ -n "$f" ] && echo "  FAILED: $f  (log: /tmp/renderfail-$(echo "$f" | tr / _).log)"; done
+# Guard on the count rather than looping over "${failed[@]:-}": under set -u an
+# empty array expands to one empty string, whose failed -n test used to become
+# the script's exit status, so a clean run reported failure.
+if [ "$fail" -gt 0 ]; then
+  for f in "${failed[@]}"; do
+    echo "  FAILED: $f  (log: /tmp/renderfail-$(echo "$f" | tr / _).log)"
+  done
+fi
+exit $(( fail > 0 ))
