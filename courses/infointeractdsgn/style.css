@@ -50,3 +50,9 @@ p.date {
   flex: 1;
 }
 
+
+/* Custom slide scaling, like Quarto's .smaller (0.7em) but at other sizes.
+   Usage: ## Heading {.scale85} */
+.reveal .slide.scale85 {
+  font-size: 0.85em;
+}
