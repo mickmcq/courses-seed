@@ -38,13 +38,14 @@ cat > "$dest/index.qmd" <<EOF
 title: "$title"
 ---
 
-# [Section]{.r-fit-text}
+# [Week N]{.r-fit-text}
 
-## First slide
+# First slide
 
 Content goes here.
 
-## References
+{{< include endMatter.md >}}
+
 EOF
 
 echo "created $dest/index.qmd"
