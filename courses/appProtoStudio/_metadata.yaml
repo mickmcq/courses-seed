@@ -1,5 +1,4 @@
-# Shared config for all appProtoStudio lecture decks.
-# Per-lecture index.qmd files should contain ONLY:  title: "..."
+title: ""
 subtitle: "App Prototyping Studio"
 author:
   - name: Mick McQuaid
@@ -9,7 +8,7 @@ date: last-modified
 date-format: "DD MMM YYYY"
 execute:
   echo: true
-format:
+format: 
   clean-revealjs:
     transition: fade
     slide-number: false
@@ -21,6 +20,9 @@ format:
     subtitle-as-header: false
     controls: true
     controls-layout: edges
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"
 filters:
   - reveal-header
   - autofade.lua
