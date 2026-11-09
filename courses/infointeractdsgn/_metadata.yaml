@@ -12,6 +12,7 @@ execute:
   echo: true
 format:
   clean-revealjs:
+    transition: fade
     slide-number: false
     logo: quarto.png
     footer-logo-link: "https://quarto.org"
